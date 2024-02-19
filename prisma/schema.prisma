@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Person{
+   id       String    @id @default(auto()) @map("_id") @db.ObjectId
+   email   String   @unique
+   name    String
+   address Address?
+   mobile String
+}
+
+// Address is an embedded document
+type Address {
+  street String
+  city   String
+  state  String
+  zip    String
+}
+
+model Exercise{
+
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  personId String    @db.ObjectId
+  name     String
+  muscle   Muscle
+}
+
+model Workout{
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt  DateTime   @updatedAt
+  
+}
+
+enum Muscle {
+  Quadriceps
+  Hamstrings
+  Glutes
+  Chest
+  Back
+  Shoulders
+  Biceps
+  Triceps
+  Abdominals
+  Calves
+}
